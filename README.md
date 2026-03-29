@@ -2,7 +2,7 @@
 
 **Chromatic Cosmic Mirror** is a real-time generative art experience that turns your environment's colors into a living galaxy. Your webcam samples the dominant hue from the physical world and maps it onto 6,000 GPU-accelerated particles — morphing between spirals, nebulae, and star clusters through procedural mathematics. Scroll to zoom. Watch the cosmos breathe.
 
-![preview](./public/preview.png)
+![preview](./galaxy/public/preview.png)
 
 ---
 
