@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Generative Galaxy</title>
+</head>
+
+<body>
+  <!-- Grainy Noise Overlay -->
+  <div class="noise-overlay"></div>
+
+  <div id="app"></div>
+
+  <div class="top-title">CHROMATIC COSMIC MIRROR</div>
+
+  <div class="ui-container">
+    <div class="pill-container">
+      <div class="pill-track">
+        <div id="hue-fill" class="pill-fill"></div>
+        <div id="hue-knob" class="pill-knob"></div>
+      </div>
+      <span class="pill-label">HUE</span>
+    </div>
+
+    <div class="pill-container">
+      <div class="pill-track">
+        <div id="sat-fill" class="pill-fill"></div>
+        <div id="sat-knob" class="pill-knob"></div>
+      </div>
+      <span class="pill-label">SAT</span>
+    </div>
+
+    <div class="pill-container">
+      <div class="pill-track">
+        <div id="lum-fill" class="pill-fill"></div>
+        <div id="lum-knob" class="pill-knob"></div>
+      </div>
+      <span class="pill-label">LUM</span>
+    </div>
+
+    <div class="type-container">
+      <div id="color-indicator"></div>
+      <div id="type-label">GALAXY</div>
+    </div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>

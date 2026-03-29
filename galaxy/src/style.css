@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap');
+
+:root {
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-bg: rgba(30, 25, 35, 0.25);
+  --glass-glow: rgba(180, 130, 200, 0.4);
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #06040a;
+  /* Very dark, desaturated base */
+  background-image:
+    linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(150, 120, 180, 0.02) 15%,
+      rgba(255, 255, 255, 0) 25%,
+      rgba(150, 120, 180, 0.01) 45%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(150, 120, 180, 0.03) 75%,
+      rgba(255, 255, 255, 0) 85%),
+    radial-gradient(ellipse at 10% 20%, rgba(90, 50, 140, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(60, 30, 100, 0.1) 0%, transparent 60%),
+    linear-gradient(45deg, rgba(20, 10, 30, 0.8) 0%, transparent 50%, rgba(40, 20, 60, 0.2) 100%);
+  background-size: 100% 100%, 200% 200%, 200% 200%, 200% 200%;
+  animation: auroraShift 15s ease-in-out infinite alternate;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+@keyframes auroraShift {
+  0% {
+    background-position: 0% 0%, 0% 0%, 100% 100%, 0% 100%;
+    background-color: #06040a;
+    /* Dark purple */
+  }
+
+  33% {
+    background-position: 0% 0%, 30% 60%, 70% 30%, 100% 0%;
+    background-color: #020609;
+    /* Dark teal/blue */
+  }
+
+  66% {
+    background-position: 0% 0%, 70% 30%, 30% 60%, 0% 100%;
+    background-color: #0a0305;
+    /* Dark reddish/burgundy */
+  }
+
+  100% {
+    background-position: 0% 0%, 100% 100%, 0% 0%, 0% 100%;
+    background-color: #06040a;
+    /* Dark purple */
+  }
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  mix-blend-mode: screen;
+  /* Applied to the parent context */
+}
+
+canvas {
+  display: block;
+}
+
+/* Procedural SVG Noise overlay to give that cinematic dusty/grainy texture */
+.noise-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.15;
+  /* Increased opacity to heavily emphasize the retro noise texture */
+  mix-blend-mode: overlay;
+}
+
+.top-title {
+  position: absolute;
+  top: 70px;
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 6px;
+  color: rgba(255, 255, 255, 0.4);
+  z-index: 10;
+  pointer-events: none;
+  font-weight: 300;
+}
+
+.ui-container {
+  position: absolute;
+  bottom: 8vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 40px;
+  z-index: 10;
+  pointer-events: none;
+  /* Mouse ignores UI allowing dragging/scrolling on canvas */
+}
+
+.pill-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.pill-track {
+  position: relative;
+  width: 42px;
+  height: 180px;
+  border-radius: 21px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.5), 0 4px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Gradient block that fills up the glass pill */
+.pill-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(to top, var(--glass-glow), transparent);
+  transition: background 0.2s ease;
+}
+
+/* Bright thin white horizontal line at the top of the fill */
+.pill-knob {
+  position: absolute;
+  bottom: 0%;
+  left: 15%;
+  width: 70%;
+  height: 2px;
+  background: #fff;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8), 0 0 12px rgba(255, 255, 255, 0.4);
+  /* The transition will be handled in JS closely following the height */
+}
+
+/* Standard horizontal text layout */
+.pill-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  margin-top: -5px;
+  /* Slight bump up to group it with the pill */
+}
+
+.type-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+  margin-left: 20px;
+  width: 100px;
+  /* Fixed width prevents shifting when label value changes */
+}
+
+#color-indicator {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8) inset;
+  transition: background-color 0.2s linear, box-shadow 0.2s linear;
+  backdrop-filter: blur(8px);
+}
+
+#type-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+  margin-top: -5px;
+  text-align: center;
+}
